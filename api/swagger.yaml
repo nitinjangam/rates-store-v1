@@ -1,0 +1,79 @@
+---
+swagger: "2.0"
+info:
+  description: "This is a store server."
+  version: "1.0.0"
+  title: "Rates API"
+  contact:
+    email: "njangam169@gmail.com"
+host: "localhost:1234"
+basePath: "/v1"
+tags:
+- name: "rental"
+  description: "Everything about rental of car"
+schemes:
+- "https"
+- "http"
+paths:
+  /getRate:
+    get:
+      tags:
+      - "rental"
+      summary: "get rate for given car type"
+      description: ""
+      operationId: "getRate"
+      consumes:
+      - "application/json"
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "body"
+        description: "rental object consisting car type and start and end date of\
+          \ rental"
+        required: true
+        schema:
+          $ref: "#/definitions/rental"
+        x-exportParamName: "Body"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "405":
+          description: "Invalid input"
+definitions:
+  rental:
+    type: "object"
+    required:
+    - "carType"
+    - "endDate"
+    - "startDate"
+    properties:
+      startDate:
+        type: "string"
+        format: "02-07-2022"
+      endDate:
+        type: "string"
+        example: "05-07-2022"
+      carType:
+        type: "string"
+        example: "hatchback/sedan/suv/muv"
+    xml:
+      name: "rental"
+  ApiResponse:
+    type: "object"
+    properties:
+      code:
+        type: "integer"
+        format: "int32"
+      type:
+        type: "string"
+      message:
+        type: "string"
+    example:
+      code: 0
+      type: "type"
+      message: "message"
